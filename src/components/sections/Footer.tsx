@@ -13,7 +13,6 @@ const footerNav = {
   Story: [
     { label: "Our Pizza", href: "#our-story" },
     { label: "The Dough", href: "#dough" },
-    { label: "The Ingredients", href: "#ingredients" },
     { label: "The Oven", href: "#oven" },
   ],
   Visit: [

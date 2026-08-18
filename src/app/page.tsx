@@ -4,7 +4,6 @@ import { SignatureExperience } from "@/components/sections/SignatureExperience";
 import { SignatureDishes } from "@/components/sections/SignatureDishes";
 import { Menu } from "@/components/sections/Menu";
 import { RestaurantExperience } from "@/components/sections/RestaurantExperience";
-import { Gallery } from "@/components/sections/Gallery";
 import { ReservationForm } from "@/components/sections/ReservationForm";
 import { Location } from "@/components/sections/Location";
 import { Footer } from "@/components/sections/Footer";
@@ -24,7 +23,6 @@ export default function Home() {
         <SignatureDishes />
         <Menu />
         <RestaurantExperience />
-        <Gallery />
         <ReservationForm />
         <Location />
       </main>
