@@ -42,7 +42,7 @@ export const locations: Location[] = [
       sunday: "12:00 PM – 9:00 PM",
     },
     coordinates: { lat: 40.7412, lng: -74.0017 },
-    image: "/images/room1.jpg",
+    image: "/images/calabrian-chili.jpg",
     description: "Our wood-fired pizzeria in a restored 1920s Chelsea warehouse. Soaring brick ceilings, original pine beams, and an open kitchen centered around the hearth.",
     features: ["Wood-fired hearth", "Private dining room", "Natural wine bar", "Walk-in counter"],
     privateDining: true,

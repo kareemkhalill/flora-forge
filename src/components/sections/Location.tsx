@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import { MapPin, Phone, Envelope, ArrowRight, CaretRight } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
-import { locations } from "@/data/locations";
+import { brand } from "@/lib/brand";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 export function Location() {
@@ -12,8 +12,6 @@ export function Location() {
     threshold: 0.1,
     rootMargin: "0px 0px -100px 0px",
   });
-
-  const location = locations[0];
 
   return (
     <section
@@ -47,7 +45,7 @@ export function Location() {
                   <Phone className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <dt className="text-sm font-medium text-foreground">Phone</dt>
-                    <dd className="text-muted mt-1"><a href={`tel:${location.phone}`} className="hover:text-accent transition-colors">{location.phone}</a></dd>
+                    <dd className="text-muted mt-1"><a href={`tel:${brand.phone}`} className="hover:text-accent transition-colors">{brand.phone}</a></dd>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -107,8 +105,8 @@ export function Location() {
           <div className={clsx("reveal stagger-2", visible ? "visible" : "")}>
             <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
               <Image
-                src={location.image}
-                alt={location.name}
+                src="/images/oven.jpg"
+                alt="Wood-fired oven at Flora & Forge"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="w-full h-full object-cover"
@@ -119,7 +117,7 @@ export function Location() {
                   variant="secondary"
                   size="sm"
                   className="gap-2"
-                  onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(location.address)}`, "_blank")}
+                  onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(brand.address.full)}`, "_blank")}
                 >
                   <CaretRight className="h-4 w-4" aria-hidden="true" />
                   Directions

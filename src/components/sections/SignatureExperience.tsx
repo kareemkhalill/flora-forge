@@ -191,7 +191,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
               <div className="aspect-[4/5] rounded-xl overflow-hidden">
                 <Image
                   src="/images/oven.jpg"
-                  alt="Wood-fired pizza oven with a pie on a peel, flames and heat visible"
+                  alt="Wood-fired oven in the open kitchen at Flora & Forge"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-full object-cover"

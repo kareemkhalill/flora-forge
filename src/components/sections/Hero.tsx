@@ -77,19 +77,19 @@ export function Hero({ className }: HeroProps) {
         </div>
 
         <div className="mt-20 lg:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 w-full max-w-4xl animate-fade-in-up delay-5">
-          <div className="flex items-center gap-3 text-muted text-sm">
+          <div className="flex items-center gap-3 text-foreground/90 text-sm">
             <MapPin className="h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
             <span>{brand.address.street}, NYC</span>
           </div>
-          <div className="flex items-center gap-3 text-muted text-sm">
+          <div className="flex items-center gap-3 text-foreground/90 text-sm">
             <Clock className="h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
             <span>Tue–Thu 5–10 PM, Fri 5–11 PM</span>
           </div>
-          <div className="flex items-center gap-3 text-muted text-sm">
+          <div className="flex items-center gap-3 text-foreground/90 text-sm">
             <MapPin className="h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
             <span>Sat 12–11 PM, Sun 12–9 PM</span>
           </div>
-          <div className="flex items-center gap-3 text-muted text-sm">
+          <div className="flex items-center gap-3 text-foreground/90 text-sm">
             <Clock className="h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
             <span>Mon Closed</span>
           </div>
