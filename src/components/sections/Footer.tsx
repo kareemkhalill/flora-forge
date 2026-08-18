@@ -39,7 +39,7 @@ export function Footer() {
       role="contentinfo"
     >
       <div className="container">
-        <div className="grid lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-8 lg:gap-12 pt-16 lg:pt-20 pb-12 lg:pb-16">
+        <div className="grid lg:grid-cols-4 gap-8 lg:gap-12 pt-16 lg:pt-20 pb-12 lg:pb-16">
           <div className="lg:col-span-1 max-w-xs">
             <div className="flex items-center gap-2 mb-6">
               <ForkKnife className="h-7 w-7 text-bone" aria-hidden="true" />

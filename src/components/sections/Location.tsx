@@ -106,26 +106,24 @@ export function Location() {
 
           <div className={clsx("reveal stagger-2", visible ? "visible" : "")}>
             <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
-              <div className="w-full h-full bg-surface relative">
-                <Image
-                  src={location.image}
-                  alt={location.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="w-full h-full object-cover"
-                  priority
-                />
-                <div className="absolute bottom-4 right-4">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="gap-2"
-                    onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(location.address)}`, "_blank")}
-                  >
-                    <CaretRight className="h-4 w-4" aria-hidden="true" />
-                    Directions
-                  </Button>
-                </div>
+              <Image
+                src={location.image}
+                alt={location.name}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="w-full h-full object-cover"
+                priority
+              />
+              <div className="absolute bottom-4 right-4">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="gap-2"
+                  onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(location.address)}`, "_blank")}
+                >
+                  <CaretRight className="h-4 w-4" aria-hidden="true" />
+                  Directions
+                </Button>
               </div>
             </div>
           </div>

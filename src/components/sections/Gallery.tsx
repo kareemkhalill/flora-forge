@@ -13,7 +13,6 @@ const galleryImages = [
     alt: "Fresh Margherita pizza with blistered crust, San Marzano tomatoes, and basil",
     width: 1200,
     height: 1600,
-    span: "lg:row-span-2 lg:col-span-2",
   },
   {
     id: "pizzaiolo-dough",
@@ -21,7 +20,6 @@ const galleryImages = [
     alt: "Pizzaiolo stretching 48-hour dough by hand, flour dust in air",
     width: 800,
     height: 1000,
-    span: "lg:col-span-1 lg:row-span-1",
   },
   {
     id: "oven",
@@ -29,7 +27,6 @@ const galleryImages = [
     alt: "Wood-fired pizza oven with flames and a pizza on the peel",
     width: 800,
     height: 1000,
-    span: "lg:col-span-1 lg:row-span-1",
   },
   {
     id: "dough",
@@ -37,7 +34,6 @@ const galleryImages = [
     alt: "Close-up of raw pizza dough dusted with flour on a wooden board",
     width: 800,
     height: 1200,
-    span: "lg:col-span-1 lg:row-span-1",
   },
   {
     id: "burrata-piccante",
@@ -45,7 +41,6 @@ const galleryImages = [
     alt: "Burrata Piccante pizza with salami, burrata, and chili oil",
     width: 1200,
     height: 800,
-    span: "lg:col-span-2 lg:row-span-1",
   },
   {
     id: "san-marzano",
@@ -53,7 +48,6 @@ const galleryImages = [
     alt: "San Marzano tomatoes and fresh ingredients for pizza",
     width: 800,
     height: 800,
-    span: "lg:col-span-1 lg:row-span-1",
   },
   {
     id: "dining-room",
@@ -61,7 +55,6 @@ const galleryImages = [
     alt: "Warm dining room interior with wooden tables and ambient light",
     width: 800,
     height: 1000,
-    span: "lg:col-span-1 lg:row-span-1",
   },
   {
     id: "fior-di-latte",
@@ -69,7 +62,6 @@ const galleryImages = [
     alt: "Fresh fior di latte mozzarella used on the pizzas",
     width: 800,
     height: 800,
-    span: "lg:col-span-1 lg:row-span-1",
   },
 ];
 
@@ -97,25 +89,30 @@ export function Gallery() {
 
         <div
           className={clsx(
-            "grid grid-cols-2 gap-3 lg:grid-cols-4 lg:grid-rows-[auto_auto_auto] gap-4",
+            "grid grid-cols-2 gap-3 lg:grid-cols-4 gap-4 lg:grid-flow-dense",
             "gallery-masonry"
           )}
           role="list"
         >
           {galleryImages.map((image, index) => {
-            // Determine aspect ratio based on image dimensions
-            const aspectRatio = image.height > image.width
+            // Determine aspect ratio and span based on image dimensions
+            const isPortrait = image.height > image.width;
+            const isWideLandscape = image.width > image.height * 1.5;
+            const aspectRatio = isPortrait
               ? "aspect-[4/5]"    // portrait
-              : image.width > image.height * 1.5
+              : isWideLandscape
                 ? "aspect-[3/2]"  // wide landscape
                 : "aspect-[4/3]"; // standard landscape
+            const span = isPortrait || isWideLandscape
+              ? "lg:col-span-2"
+              : "lg:col-span-1";
             return (
               <figure
                 key={image.id}
                 className={clsx(
                   "relative overflow-hidden group cursor-zoom-in",
                   aspectRatio,
-                  image.span,
+                  span,
                   `reveal stagger-${(index % 6) + 1}`,
                   visible ? "visible" : ""
                 )}

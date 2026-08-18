@@ -97,7 +97,7 @@ export function BrandStory({ className }: BrandStoryProps) {
                 loading="lazy"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 bg-card border border-border p-6 lg:p-8 rounded-xl shadow-[0_30px_60px_-20px_rgba(44,33,27,0.25)] max-w-xs">
+            <div className="absolute -bottom-6 right-4 lg:-right-6 lg:bottom-8 bg-card border border-border p-6 lg:p-8 rounded-xl shadow-[0_30px_60px_-20px_rgba(44,33,27,0.25)] max-w-xs">
               <p className="font-display text-2xl font-medium text-accent">48</p>
               <p className="text-muted text-sm mt-1">Hours of dough fermentation</p>
               <div className="editorial-divider my-4" />
