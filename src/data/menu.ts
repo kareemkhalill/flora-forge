@@ -7,6 +7,7 @@ export interface MenuItem {
 export interface MenuCategory {
   id: string;
   title: string;
+  description: string;
   items: MenuItem[];
 }
 
@@ -14,6 +15,7 @@ export const menuCategories: MenuCategory[] = [
   {
     id: "classiche",
     title: "Pizze Classiche",
+    description: "Timeless Neapolitan-style pies — simple, balanced, and true to tradition",
     items: [
       {
         name: "Margherita",
@@ -40,6 +42,7 @@ export const menuCategories: MenuCategory[] = [
   {
     id: "signature",
     title: "Signature Pizze",
+    description: "Creative combinations built around seasonal ingredients and bold flavor pairings",
     items: [
       {
         name: "Burrata Piccante",
@@ -71,6 +74,7 @@ export const menuCategories: MenuCategory[] = [
   {
     id: "sides",
     title: "From the Side",
+    description: "Small plates and a classic dessert to share alongside your pie",
     items: [
       {
         name: "Garlic Knots",

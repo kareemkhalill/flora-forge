@@ -33,7 +33,14 @@ export function Menu() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-10 lg:mb-14 justify-center lg:justify-start reveal stagger-1" role="tablist" aria-label="Menu categories">
+        <div
+          className={clsx(
+            "flex flex-wrap gap-2 mb-10 lg:mb-14 justify-center lg:justify-start reveal stagger-1",
+            visible && "visible"
+          )}
+          role="tablist"
+          aria-label="Menu categories"
+        >
           {menuCategories.map((cat) => (
             <button
               key={cat.id}
@@ -54,10 +61,24 @@ export function Menu() {
           ))}
         </div>
 
-        <div className="reveal stagger-2" role="tabpanel" id={`${activeCategory}-panel`} aria-labelledby={`${activeCategory}-tab`}>
+        <div
+          key={activeCategory}
+          className={clsx(
+            "reveal stagger-2",
+            visible && "visible"
+          )}
+          role="tabpanel"
+          id={`${activeCategory}-panel`}
+          aria-labelledby={`${activeCategory}-tab`}
+        >
+          <p className="text-muted text-base mb-8 max-w-2xl">{category.description}</p>
           <dl className="space-y-0 max-w-3xl">
             {category.items.map((item, index) => (
-              <div key={item.name} className="menu-item reveal stagger-1" style={{ transitionDelay: `${(index + 1) * 50}ms` }}>
+              <div
+                key={item.name}
+                className={clsx("menu-item reveal stagger-1", visible && "visible")}
+                style={{ transitionDelay: `${(index + 1) * 50}ms` }}
+              >
                 <div>
                   <dt className="menu-item-name">{item.name}</dt>
                   <dd className="menu-item-description">{item.description}</dd>
@@ -68,7 +89,7 @@ export function Menu() {
           </dl>
         </div>
 
-        <div className="mt-12 lg:mt-16 text-center reveal stagger-3">
+        <div className={clsx("mt-12 lg:mt-16 text-center reveal stagger-3", visible && "visible")}>
           <Button
             variant="secondary"
             size="lg"
