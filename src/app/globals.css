@@ -378,7 +378,7 @@ img {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(247, 241, 231, 0.25) 0%, rgba(247, 241, 231, 0.45) 55%, rgba(247, 241, 231, 0.85) 85%, var(--background) 100%);
+  background: linear-gradient(180deg, rgba(44, 33, 27, 0.15) 0%, rgba(44, 33, 27, 0.35) 40%, rgba(44, 33, 27, 0.55) 65%, rgba(44, 33, 27, 0.8) 90%, var(--background) 100%);
   z-index: 1;
 }
 
@@ -588,6 +588,10 @@ img {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.text-shadow {
+  text-shadow: 0 2px 8px rgba(44, 33, 27, 0.6), 0 1px 3px rgba(44, 33, 27, 0.4);
 }
 
 @keyframes float {
