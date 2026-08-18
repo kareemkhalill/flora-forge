@@ -44,7 +44,7 @@ export function Hero({ className }: HeroProps) {
           )}
           style={{ transitionDelay: "0ms" }}
         >
-          <p className="eyebrow mb-6 animate-fade-in-up delay-1 text-foreground/90">
+          <p className="eyebrow mb-6 animate-fade-in-up delay-1 text-foreground">
             WOOD-FIRED PIZZERIA
           </p>
           <h1
@@ -53,7 +53,7 @@ export function Hero({ className }: HeroProps) {
           >
             Straight from the Oven.
           </h1>
-          <p className="mt-6 text-lg lg:text-xl text-foreground/80 max-w-2xl mx-auto lg:mx-0 animate-fade-in-up delay-3">
+          <p className="mt-6 text-lg lg:text-xl text-foreground/90 max-w-2xl mx-auto lg:mx-0 animate-fade-in-up delay-3">
             Hand-stretched dough, carefully chosen ingredients, and pizza baked to order.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 lg:justify-start animate-fade-in-up delay-4">
