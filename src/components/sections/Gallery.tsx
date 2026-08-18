@@ -8,13 +8,6 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const galleryImages = [
   {
-    id: "hero-pizza",
-    src: "/images/hero-pizza.jpg",
-    alt: "Fresh Margherita pizza with blistered crust, San Marzano tomatoes, and basil",
-    width: 1200,
-    height: 1600,
-  },
-  {
     id: "pizzaiolo-dough",
     src: "/images/pizzaiolo.jpg",
     alt: "Pizzaiolo stretching 48-hour dough by hand, flour dust in air",
@@ -57,11 +50,25 @@ const galleryImages = [
     height: 1000,
   },
   {
+    id: "private-dining",
+    src: "/images/room2.jpg",
+    alt: "Private dining area with marble table and warm lighting",
+    width: 800,
+    height: 1000,
+  },
+  {
     id: "fior-di-latte",
     src: "/images/fior-di-latte.jpg",
     alt: "Fresh fior di latte mozzarella used on the pizzas",
     width: 800,
     height: 800,
+  },
+  {
+    id: "communal-table",
+    src: "/images/room3.jpg",
+    alt: "Communal dining table with guests and candlelight",
+    width: 800,
+    height: 1000,
   },
 ];
 
@@ -143,17 +150,6 @@ export function Gallery() {
             </figure>
           );
         })}
-        </div>
-
-        <div className={clsx("mt-12 lg:mt-16 text-center reveal stagger-7", visible ? "visible" : "")} style={{ transitionDelay: "300ms" }}>
-          <p className="text-muted mb-4">Want to see more?</p>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 text-accent font-medium hover:text-accent-hover transition-colors group"
-          >
-            Follow us on Instagram
-            <Camera className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-          </a>
         </div>
       </div>
     </section>
