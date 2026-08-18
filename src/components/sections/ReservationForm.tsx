@@ -142,6 +142,7 @@ export function ReservationForm() {
   return (
     <section
       ref={ref}
+      id="reservations"
       className="section relative"
       aria-labelledby="reservations-title"
     >

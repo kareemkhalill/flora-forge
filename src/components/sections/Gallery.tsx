@@ -102,17 +102,25 @@ export function Gallery() {
           )}
           role="list"
         >
-          {galleryImages.map((image, index) => (
-            <figure
-              key={image.id}
-              className={clsx(
-                "relative aspect-auto overflow-hidden group cursor-zoom-in",
-                image.span,
-                `reveal stagger-${(index % 6) + 1}`,
-                visible ? "visible" : ""
-              )}
-              role="listitem"
-            >
+          {galleryImages.map((image, index) => {
+            // Determine aspect ratio based on image dimensions
+            const aspectRatio = image.height > image.width
+              ? "aspect-[4/5]"    // portrait
+              : image.width > image.height * 1.5
+                ? "aspect-[3/2]"  // wide landscape
+                : "aspect-[4/3]"; // standard landscape
+            return (
+              <figure
+                key={image.id}
+                className={clsx(
+                  "relative overflow-hidden group cursor-zoom-in",
+                  aspectRatio,
+                  image.span,
+                  `reveal stagger-${(index % 6) + 1}`,
+                  visible ? "visible" : ""
+                )}
+                role="listitem"
+              >
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -135,7 +143,8 @@ export function Gallery() {
                 {brand.name}
               </figcaption>
             </figure>
-          ))}
+          );
+        })}
         </div>
 
         <div className="mt-12 lg:mt-16 text-center reveal stagger-7" style={{ transitionDelay: "300ms" }}>

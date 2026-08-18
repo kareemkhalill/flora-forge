@@ -9,7 +9,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 export function Menu() {
   const [activeCategory, setActiveCategory] = useState("classiche");
-  const [ref] = useIntersectionObserver({
+  const [ref, visible] = useIntersectionObserver({
     threshold: 0.15,
     rootMargin: "0px 0px -100px 0px",
   });
@@ -24,7 +24,7 @@ export function Menu() {
       aria-labelledby="menu-title"
     >
       <div className="container">
-        <div className="section-header max-w-2xl mb-12 lg:mb-16 reveal">
+        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible && "visible")}>
           <span className="eyebrow">THE MENU</span>
           <h2 id="menu-title">Crafted for the oven</h2>
           <p>
