@@ -7,6 +7,7 @@ import { brand } from "@/lib/brand";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const galleryImages = [
+  // THE PROCESS — kitchen rhythm
   {
     id: "pizzaiolo-dough",
     src: "/images/pizzaiolo.jpg",
@@ -28,6 +29,7 @@ const galleryImages = [
     width: 800,
     height: 1200,
   },
+  // THE INGREDIENTS — product detail
   {
     id: "burrata-piccante",
     src: "/images/burrata-piccante.jpg",
@@ -43,6 +45,14 @@ const galleryImages = [
     height: 800,
   },
   {
+    id: "fior-di-latte",
+    src: "/images/fior-di-latte.jpg",
+    alt: "Fresh fior di latte mozzarella used on the pizzas",
+    width: 800,
+    height: 800,
+  },
+  // THE ROOM — dining atmosphere
+  {
     id: "dining-room",
     src: "/images/room1.jpg",
     alt: "Warm dining room interior with wooden tables and ambient light",
@@ -57,19 +67,18 @@ const galleryImages = [
     height: 1000,
   },
   {
-    id: "fior-di-latte",
-    src: "/images/fior-di-latte.jpg",
-    alt: "Fresh fior di latte mozzarella used on the pizzas",
-    width: 800,
-    height: 800,
-  },
-  {
     id: "communal-table",
     src: "/images/room3.jpg",
     alt: "Communal dining table with guests and candlelight",
     width: 800,
     height: 1000,
   },
+];
+
+const sections = [
+  { label: "The Process", start: 0, count: 3 },
+  { label: "The Ingredients", start: 3, count: 3 },
+  { label: "The Room", start: 6, count: 3 },
 ];
 
 export function Gallery() {
@@ -103,6 +112,11 @@ export function Gallery() {
           role="list"
         >
           {galleryImages.map((image, index) => {
+            // Section labels at group boundaries
+            const currentSection = sections.find((s) => index >= s.start && index < s.start + s.count);
+            const isSectionStart = sections.some((s) => s.start === index);
+            const sectionLabel = isSectionStart ? currentSection?.label : null;
+
             // Determine aspect ratio and span based on image dimensions
             const isPortrait = image.height > image.width;
             const isWideLandscape = image.width > image.height * 1.5;
@@ -114,42 +128,56 @@ export function Gallery() {
             const span = isPortrait || isWideLandscape
               ? "lg:col-span-2"
               : "lg:col-span-1";
+
             return (
-              <figure
-                key={image.id}
-                className={clsx(
-                  "relative overflow-hidden group cursor-zoom-in",
-                  aspectRatio,
-                  span,
-                  `reveal stagger-${(index % 6) + 1}`,
-                  visible ? "visible" : ""
+              <>
+                {sectionLabel && (
+                  <div
+                    key={`section-${sectionLabel}`}
+                    className="lg:col-span-4 col-span-2 py-6 lg:py-8 text-center"
+                    aria-hidden="true"
+                  >
+                    <span className="text-xs uppercase tracking-widest text-accent font-medium">
+                      {sectionLabel}
+                    </span>
+                  </div>
                 )}
-                role="listitem"
-              >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 25vw"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                loading={index < 4 ? "eager" : "lazy"}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-              <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0 z-20">
-                <button
-                  className="p-2 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent hover:text-bone transition-colors"
-                  aria-label={`View ${image.alt} fullscreen`}
+                <figure
+                  key={image.id}
+                  className={clsx(
+                    "relative overflow-hidden group cursor-zoom-in",
+                    aspectRatio,
+                    span,
+                    `reveal stagger-${(index % 6) + 1}`,
+                    visible ? "visible" : ""
+                  )}
+                  role="listitem"
                 >
-                  <ArrowSquareOut className="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
-              <figcaption className="absolute bottom-4 left-4 text-foreground/80 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0 z-20">
-                <Camera className="h-3 w-3 inline-block mr-1 -mt-0.5" aria-hidden="true" />
-                {brand.name}
-              </figcaption>
-            </figure>
-          );
-        })}
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 25vw"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    loading={index < 4 ? "eager" : "lazy"}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0 z-20">
+                    <button
+                      className="p-2 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent hover:text-bone transition-colors"
+                      aria-label={`View ${image.alt} fullscreen`}
+                    >
+                      <ArrowSquareOut className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <figcaption className="absolute bottom-4 left-4 text-foreground/80 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0 z-20">
+                    <Camera className="h-3 w-3 inline-block mr-1 -mt-0.5" aria-hidden="true" />
+                    {brand.name}
+                  </figcaption>
+                </figure>
+              </>
+            );
+          })}
         </div>
       </div>
     </section>
