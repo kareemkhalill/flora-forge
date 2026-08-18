@@ -4,8 +4,8 @@ import { forwardRef, ButtonHTMLAttributes } from "react";
 import { clsx } from "clsx";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
+  size?: "sm" | "md" | "lg" | "xl";
   isLoading?: boolean;
 }
 
@@ -43,6 +43,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "hover:bg-accent-light hover:border-accent",
         "@media (hover: hover) and (pointer: fine): hover:-translate-y-[1px]"
       ),
+      outline: clsx(
+        "bg-transparent text-foreground border border-foreground/30",
+        "hover:bg-foreground/5 hover:border-foreground/50",
+        "@media (hover: hover) and (pointer: fine): hover:-translate-y-[1px]"
+      ),
       ghost: clsx(
         "bg-transparent text-foreground",
         "hover:bg-surface",
@@ -54,6 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       sm: "text-sm px-4 py-2",
       md: "text-base px-6 py-3",
       lg: "text-lg px-8 py-4",
+      xl: "text-lg px-10 py-5",
     };
 
     return (

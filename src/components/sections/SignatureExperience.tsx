@@ -80,7 +80,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
             </div>
 
             <div className={clsx("reveal stagger-2", doughVisible ? "visible" : "")}>
-              <div className="section-header">
+              <div className={clsx("section-header reveal stagger-1", doughVisible ? "visible" : "")}>
                 <span className="eyebrow">THE DOUGH</span>
                 <h2 id="dough-title">48 hours make a difference.</h2>
                 <p>
@@ -90,8 +90,12 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
               </div>
 
               <div className="mt-12 space-y-8">
-                {doughSteps.map((s) => (
-                  <div key={s.step} className="flex gap-4">
+                {doughSteps.map((s, index) => (
+                  <div
+                    key={s.step}
+                    className={clsx("flex gap-4 reveal stagger-1", doughVisible ? "visible" : "")}
+                    style={{ transitionDelay: `${(index + 1) * 100}ms` }}
+                  >
                     <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
                       <span className="font-display text-xl text-accent">{s.step}</span>
                     </div>
@@ -124,31 +128,33 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {ingredientList.map((ing, index) => (
-              <article
-                key={ing.name}
-                className={clsx(
-                  "group",
-                  `reveal stagger-${index + 1}`,
-                  ingredientsVisible ? "visible" : ""
-                )}
-              >
-                <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4">
-                  <Image
-                    src={ing.image}
-                    alt={ing.name}
-                    width="800"
-                    height="600"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="font-display text-lg font-medium">{ing.name}</h3>
-                <p className="text-muted text-sm mt-1 leading-relaxed">{ing.text}</p>
-              </article>
-            ))}
+          <div className={clsx("reveal stagger-1", ingredientsVisible ? "visible" : "")}>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {ingredientList.map((ing, index) => (
+                <article
+                  key={ing.name}
+                  className={clsx(
+                    "group",
+                    `reveal stagger-${index + 1}`,
+                    ingredientsVisible ? "visible" : ""
+                  )}
+                >
+                  <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4">
+                    <Image
+                      src={ing.image}
+                      alt={ing.name}
+                      width="800"
+                      height="600"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <h3 className="font-display text-lg font-medium">{ing.name}</h3>
+                  <p className="text-muted text-sm mt-1 leading-relaxed">{ing.text}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -163,7 +169,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className={clsx("reveal stagger-2 order-2 lg:order-1", ovenVisible ? "visible" : "")}>
-              <div className="section-header">
+              <div className={clsx("section-header reveal stagger-1", ovenVisible ? "visible" : "")}>
                 <span className="eyebrow">THE OVEN</span>
                 <h2 id="oven-title">The last step happens fast.</h2>
                 <p>
@@ -171,7 +177,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
                   light inside. The oven does in ninety seconds what a home kitchen never could.
                 </p>
               </div>
-              <div className="mt-8 grid grid-cols-3 gap-4">
+              <div className={clsx("mt-8 grid grid-cols-3 gap-4 reveal stagger-1", ovenVisible ? "visible" : "")}>
                 <div>
                   <p className="font-display text-3xl text-accent">900°F</p>
                   <p className="text-muted text-sm mt-1">Oven temperature</p>

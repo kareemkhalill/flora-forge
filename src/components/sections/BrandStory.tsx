@@ -1,33 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { clsx } from "clsx";
 import Image from "next/image";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 interface BrandStoryProps {
   className?: string;
 }
 
 export function BrandStory({ className }: BrandStoryProps) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -100px 0px" }
-    );
-    const el = document.getElementById("our-story");
-    if (el) observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const [ref, visible] = useIntersectionObserver({
+    threshold: 0.15,
+    rootMargin: "0px 0px -100px 0px",
+  });
 
   return (
     <section
+      ref={ref}
       id="our-story"
       className={clsx("section relative", className)}
       aria-labelledby="our-story-title"
@@ -46,40 +35,46 @@ export function BrandStory({ className }: BrandStoryProps) {
             </div>
 
             <div className="mt-12 space-y-8">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
-                  <span className="font-display text-xl text-accent">01</span>
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-medium">Long fermentation</h3>
-                  <p className="text-muted mt-1">
-                    The dough rests for 48 hours before it sees heat. Cold, slow, and patient —
-                    that wait is what gives the crust its open crumb and quiet tang.
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
-                  <span className="font-display text-xl text-accent">02</span>
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-medium">Few ingredients, chosen well</h3>
-                  <p className="text-muted mt-1">
-                    San Marzano tomatoes, fior di latte, basil from the market, and olive oil
-                    we actually like to drink. That&apos;s most of the menu. We don&apos;t dress it up.
-                  </p>
+              <div className={clsx("reveal stagger-1", visible ? "visible" : "")} style={{ transitionDelay: "100ms" }}>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
+                    <span className="font-display text-xl text-accent">01</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl font-medium">Long fermentation</h3>
+                    <p className="text-muted mt-1">
+                      The dough rests for 48 hours before it sees heat. Cold, slow, and patient —
+                      that wait is what gives the crust its open crumb and quiet tang.
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
-                  <span className="font-display text-xl text-accent">03</span>
+              <div className={clsx("reveal stagger-1", visible ? "visible" : "")} style={{ transitionDelay: "200ms" }}>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
+                    <span className="font-display text-xl text-accent">02</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl font-medium">Few ingredients, chosen well</h3>
+                    <p className="text-muted mt-1">
+                      San Marzano tomatoes, fior di latte, basil from the market, and olive oil
+                      we actually like to drink. That&apos;s most of the menu. We don&apos;t dress it up.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-display text-xl font-medium">Baked to order</h3>
-                  <p className="text-muted mt-1">
-                    Every pie is stretched by hand the moment you order it and fired in under
-                    two minutes. What lands on your table was never under a heat lamp.
-                  </p>
+              </div>
+              <div className={clsx("reveal stagger-1", visible ? "visible" : "")} style={{ transitionDelay: "300ms" }}>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-muted flex items-center justify-center">
+                    <span className="font-display text-xl text-accent">03</span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl font-medium">Baked to order</h3>
+                    <p className="text-muted mt-1">
+                      Every pie is stretched by hand the moment you order it and fired in under
+                      two minutes. What lands on your table was never under a heat lamp.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,7 +92,7 @@ export function BrandStory({ className }: BrandStoryProps) {
                 loading="lazy"
               />
             </div>
-            <div className="absolute -bottom-6 right-4 lg:-right-6 lg:bottom-8 bg-card border border-border p-6 lg:p-8 rounded-xl shadow-[0_30px_60px_-20px_rgba(44,33,27,0.25)] max-w-xs">
+            <div className="absolute bottom-8 right-8 lg:bottom-12 lg:right-12 bg-card border border-border p-6 lg:p-8 rounded-xl shadow-[0_30px_60px_-20px_rgba(44,33,27,0.25)] max-w-xs animate-float">
               <p className="font-display text-2xl font-medium text-accent">48</p>
               <p className="text-muted text-sm mt-1">Hours of dough fermentation</p>
               <div className="editorial-divider my-4" />
