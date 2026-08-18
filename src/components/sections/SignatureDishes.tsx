@@ -54,7 +54,7 @@ export function SignatureDishes() {
       aria-labelledby="dishes-title"
     >
       <div className="container">
-        <div className="section-header max-w-2xl mb-12 lg:mb-16 reveal">
+        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible ? "visible" : "")}>
           <span className="eyebrow">SIGNATURE PIZZA</span>
           <h2 id="dishes-title">The one we&apos;re known for</h2>
           <p>

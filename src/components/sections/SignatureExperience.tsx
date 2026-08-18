@@ -59,6 +59,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
       {/* THE DOUGH */}
       <section
         ref={doughRef}
+        id="dough"
         className={clsx("section bg-surface relative", className)}
         aria-labelledby="dough-title"
       >
@@ -109,11 +110,12 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
       {/* THE INGREDIENTS */}
       <section
         ref={ingredientsRef}
+        id="ingredients"
         className={clsx("section relative", className)}
         aria-labelledby="ingredients-title"
       >
         <div className="container">
-          <div className="section-header max-w-2xl mb-16 lg:mb-20 reveal">
+          <div className={clsx("section-header max-w-2xl mb-16 lg:mb-20 reveal", ingredientsVisible ? "visible" : "")}>
             <span className="eyebrow">THE INGREDIENTS</span>
             <h2 id="ingredients-title">Keep it simple. Choose it well.</h2>
             <p>
@@ -154,6 +156,7 @@ export function SignatureExperience({ className }: SignatureExperienceProps) {
       {/* THE OVEN */}
       <section
         ref={ovenRef}
+        id="oven"
         className={clsx("section bg-surface relative overflow-hidden", className)}
         aria-labelledby="oven-title"
       >

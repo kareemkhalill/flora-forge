@@ -23,7 +23,7 @@ export function Location() {
       aria-labelledby="location-title"
     >
       <div className="container">
-        <div className="section-header max-w-2xl mb-12 lg:mb-16 reveal">
+        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible ? "visible" : "")}>
           <span className="eyebrow">VISIT US</span>
           <h2 id="location-title">One oven, one neighborhood.</h2>
           <p>

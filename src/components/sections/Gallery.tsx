@@ -74,11 +74,12 @@ export function Gallery() {
   return (
     <section
       ref={ref}
+      id="gallery"
       className="section relative"
       aria-labelledby="gallery-title"
     >
       <div className="container">
-        <div className="section-header max-w-2xl mb-12 lg:mb-16 reveal">
+        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible ? "visible" : "")}>
           <span className="eyebrow">GALLERY</span>
           <h2 id="gallery-title">Moments around the fire</h2>
           <p>
@@ -144,7 +145,7 @@ export function Gallery() {
         })}
         </div>
 
-        <div className="mt-12 lg:mt-16 text-center reveal stagger-7" style={{ transitionDelay: "300ms" }}>
+        <div className={clsx("mt-12 lg:mt-16 text-center reveal stagger-7", visible ? "visible" : "")} style={{ transitionDelay: "300ms" }}>
           <p className="text-muted mb-4">Want to see more?</p>
           <a
             href="#"
