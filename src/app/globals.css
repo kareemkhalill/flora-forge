@@ -378,7 +378,7 @@ img {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(247, 241, 231, 0.4) 0%, rgba(247, 241, 231, 0.85) 75%, var(--background) 100%);
+  background: linear-gradient(180deg, rgba(247, 241, 231, 0.25) 0%, rgba(247, 241, 231, 0.45) 55%, rgba(247, 241, 231, 0.85) 85%, var(--background) 100%);
   z-index: 1;
 }
 
