@@ -42,7 +42,6 @@ export function SignatureDishes() {
                   alt={signatureImage.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
                 />
               </Parallax>
               <div className="pt-6 border-t border-border mt-6 flex items-start justify-between gap-6">

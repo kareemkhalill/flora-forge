@@ -65,7 +65,7 @@ export function Menu() {
                 key={activeCategory}
                 initial={{ opacity: 0, y: reduced ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: reduced ? 0 : -8 }}
+                exit={{ opacity: 0, y: reduced ? 0 : -6, transition: { duration: reduced ? 0.01 : 0.16, ease: EASE } }}
                 transition={{ duration: reduced ? 0.01 : 0.35, ease: EASE }}
               >
                 <p className="text-muted mb-8">{category.description}</p>

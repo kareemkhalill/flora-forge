@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, ReactNode } from "react";
+import { useRef, useSyncExternalStore, ReactNode } from "react";
 import {
   motion,
   useScroll,
@@ -126,6 +126,22 @@ export function WordReveal({
   );
 }
 
+const COARSE_POINTER = "(pointer: coarse)";
+
+function subscribeCoarsePointer(onChange: () => void) {
+  const query = window.matchMedia(COARSE_POINTER);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+function useCoarsePointer() {
+  return useSyncExternalStore(
+    subscribeCoarsePointer,
+    () => window.matchMedia(COARSE_POINTER).matches,
+    () => false
+  );
+}
+
 /** Scroll-linked parallax on an image frame. `strength` is travel in pixels. */
 export function Parallax({
   children,
@@ -138,13 +154,15 @@ export function Parallax({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const coarse = useCoarsePointer();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [strength, -strength]);
   const smoothY = useSpring(y, { stiffness: 120, damping: 30, mass: 0.4 });
 
   return (
     <div ref={ref} className={clsx("overflow-hidden", className)}>
-      <motion.div className="h-full w-full" style={reduced ? undefined : { y: smoothY, scale: 1.12 }}>
+      {/* On touch the spring keeps easing after the finger lifts, so track scroll 1:1. */}
+      <motion.div className="h-full w-full" style={reduced ? undefined : { y: coarse ? y : smoothY, scale: 1.12 }}>
         {children}
       </motion.div>
     </div>
