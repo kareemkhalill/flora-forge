@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { clsx } from "clsx";
-import { Calendar, Clock, Users, User, Phone, Envelope, NotePencil, CheckCircle, Warning } from "@phosphor-icons/react";
+import { CheckCircle, Warning } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Reveal, WordReveal, Magnetic } from "@/components/motion/Motion";
 
 interface FormData {
   date: string;
@@ -32,9 +32,7 @@ function validate(data: FormData): FormErrors {
     const selected = new Date(data.date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    if (selected < today) {
-      errors.date = "Date cannot be in the past";
-    }
+    if (selected < today) errors.date = "Date cannot be in the past";
   }
 
   if (!data.time) errors.time = "Please select a time";
@@ -62,19 +60,7 @@ function validate(data: FormData): FormErrors {
 }
 
 export function ReservationForm() {
-  const [ref, visible] = useIntersectionObserver({
-    threshold: 0.1,
-    rootMargin: "0px 0px -100px 0px",
-  });
-  const [formData, setFormData] = useState<FormData>({
-    date: "",
-    time: "",
-    guests: "",
-    name: "",
-    phone: "",
-    email: "",
-    requests: "",
-  });
+  const [formData, setFormData] = useState<FormData>({ date: "", time: "", guests: "", name: "", phone: "", email: "", requests: "" });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -83,9 +69,7 @@ export function ReservationForm() {
   const updateField = (field: keyof FormData, value: string) => {
     const updated = { ...formData, [field]: value };
     setFormData(updated);
-    if (touched[field]) {
-      setErrors(validate(updated));
-    }
+    if (touched[field]) setErrors(validate(updated));
   };
 
   const handleBlur = (field: keyof FormData) => {
@@ -111,26 +95,26 @@ export function ReservationForm() {
     setSubmitted(true);
   };
 
+  const errorText = (field: string) =>
+    touched[field] && errors[field] ? (
+      <p id={`res-${field}-error`} className="text-xs text-destructive mt-1.5 flex items-center gap-1">
+        <Warning className="h-3.5 w-3.5" aria-hidden="true" />
+        {errors[field]}
+      </p>
+    ) : null;
+
   if (submitted) {
     return (
-      <section
-        data-section="reservations"
-        className="section relative"
-        aria-labelledby="reservations-title"
-      >
+      <section data-section="reservations" className="section" aria-labelledby="reservations-title">
         <div className="container">
-          <div className="card max-w-xl mx-auto p-8 lg:p-12 text-center">
-            <div className="w-16 h-16 rounded-full bg-accent-muted flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="h-8 w-8 text-accent" aria-hidden="true" />
-            </div>
-            <h2 id="reservations-title" className="font-display text-2xl lg:text-3xl font-medium mb-3">
-              Reservation confirmed
-            </h2>
-            <p className="text-muted mb-6">
-              Thank you, {formData.name}. We&apos;ve sent a confirmation to {formData.email}.
-              We look forward to welcoming you on {formData.date} at {formData.time}.
+          <div className="max-w-xl mx-auto text-center border-t border-b border-border py-14">
+            <CheckCircle className="h-10 w-10 text-accent mx-auto mb-6" aria-hidden="true" />
+            <h2 id="reservations-title" className="display-2 mb-4">Reservation confirmed</h2>
+            <p className="text-muted mb-8 leading-relaxed">
+              Thank you, {formData.name}. We&apos;ve sent a confirmation to {formData.email}. We
+              look forward to welcoming you on {formData.date} at {formData.time}.
             </p>
-            <Button variant="secondary" size="lg" onClick={() => setSubmitted(false)}>
+            <Button variant="outline" size="lg" onClick={() => setSubmitted(false)}>
               Make Another Reservation
             </Button>
           </div>
@@ -140,64 +124,43 @@ export function ReservationForm() {
   }
 
   return (
-    <section
-      ref={ref}
-      id="reservations"
-      className="section relative"
-      aria-labelledby="reservations-title"
-    >
+    <section id="reservations" className="section" aria-labelledby="reservations-title">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          <div className={clsx("reveal stagger-1", visible ? "visible" : "")}>
-            <div className="section-header">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-8">
+          <div className="lg:col-span-4">
+            <Reveal>
               <span className="eyebrow">Reservations</span>
-              <h2 id="reservations-title">Reserve your table</h2>
-              <p>
-                Reservations open 14 days in advance. For parties of nine or more,
-                or private events, please contact us directly.
+            </Reveal>
+            <WordReveal id="reservations-title" as="h2" className="display-2 mt-5" text="Book a table" delay={0.05} />
+            <Reveal delay={0.15}>
+              <p className="mt-6 text-muted text-lg leading-relaxed max-w-sm">
+                The book opens fourteen days ahead. We hold a few seats at the counter for walk-ins
+                every night, so it is always worth stopping by.
               </p>
-            </div>
+            </Reveal>
 
-            <dl className="mt-8 space-y-4">
-              <div className="flex items-start gap-3">
-                <Phone className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-foreground">By phone</dt>
-                  <dd className="text-muted text-sm">(212) 555-0147</dd>
-                </div>
+            <dl className="mt-10 space-y-5 border-t border-border pt-8">
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-2">By phone</dt>
+                <dd className="text-foreground mt-1">(212) 555-0147</dd>
               </div>
-              <div className="flex items-start gap-3">
-                <Envelope className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-foreground">By email</dt>
-                  <dd className="text-muted text-sm">reserve@floraandforge.com</dd>
-                </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-2">By email</dt>
+                <dd className="text-foreground mt-1">reserve@floraandforge.com</dd>
               </div>
-              <div className="flex items-start gap-3">
-                <Users className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-foreground">Large parties</dt>
-                  <dd className="text-muted text-sm">Events of 9+ • events@floraandforge.com</dd>
-                </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-2">Large parties</dt>
+                <dd className="text-foreground mt-1">Events of 9+ · events@floraandforge.com</dd>
               </div>
             </dl>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className={clsx(
-              "card p-6 lg:p-8 space-y-5",
-              "reveal stagger-2",
-              visible ? "visible" : ""
-            )}
-            noValidate
-          >
-            <div className="grid grid-cols-2 gap-4">
+          <div className="lg:col-span-1" />
+
+          <form onSubmit={handleSubmit} className="lg:col-span-7" noValidate>
+            <div className="grid grid-cols-2 gap-x-6">
               <div>
-                <label htmlFor="res-date" className="block text-sm font-medium text-foreground mb-2">
-                  <Calendar className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                  Date
-                </label>
+                <label htmlFor="res-date" className="field-label">Date</label>
                 <input
                   id="res-date"
                   type="date"
@@ -206,23 +169,15 @@ export function ReservationForm() {
                   onBlur={() => handleBlur("date")}
                   aria-invalid={touched.date && !!errors.date}
                   aria-describedby={errors.date ? "res-date-error" : undefined}
-                  className={clsx("input", touched.date && errors.date && "border-destructive")}
+                  className={clsx("field-input", touched.date && errors.date && "border-destructive")}
                   min={new Date().toISOString().split("T")[0]}
                   autoComplete="off"
                 />
-                {touched.date && errors.date && (
-                  <p id="res-date-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                    <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                    {errors.date}
-                  </p>
-                )}
+                {errorText("date")}
               </div>
 
               <div>
-                <label htmlFor="res-time" className="block text-sm font-medium text-foreground mb-2">
-                  <Clock className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                  Time
-                </label>
+                <label htmlFor="res-time" className="field-label">Time</label>
                 <select
                   id="res-time"
                   value={formData.time}
@@ -230,27 +185,19 @@ export function ReservationForm() {
                   onBlur={() => handleBlur("time")}
                   aria-invalid={touched.time && !!errors.time}
                   aria-describedby={errors.time ? "res-time-error" : undefined}
-                  className={clsx("input", touched.time && errors.time && "border-destructive")}
+                  className={clsx("field-input", touched.time && errors.time && "border-destructive")}
                 >
                   <option value="">Select time</option>
                   {timeSlots.map((slot) => (
                     <option key={slot} value={slot}>{slot}</option>
                   ))}
                 </select>
-                {touched.time && errors.time && (
-                  <p id="res-time-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                    <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                    {errors.time}
-                  </p>
-                )}
+                {errorText("time")}
               </div>
             </div>
 
-            <div>
-              <label htmlFor="res-guests" className="block text-sm font-medium text-foreground mb-2">
-                <Users className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                Party Size
-              </label>
+            <div className="mt-6">
+              <label htmlFor="res-guests" className="field-label">Party Size</label>
               <select
                 id="res-guests"
                 value={formData.guests}
@@ -258,30 +205,20 @@ export function ReservationForm() {
                 onBlur={() => handleBlur("guests")}
                 aria-invalid={touched.guests && !!errors.guests}
                 aria-describedby={errors.guests ? "res-guests-error" : undefined}
-                className={clsx("input", touched.guests && errors.guests && "border-destructive")}
+                className={clsx("field-input", touched.guests && errors.guests && "border-destructive")}
               >
                 <option value="">Select party size</option>
                 {guestOptions.map((num) => (
-                  <option key={num} value={num}>
-                    {num} {num === "1" ? "guest" : "guests"}
-                  </option>
+                  <option key={num} value={num}>{num} {num === "1" ? "guest" : "guests"}</option>
                 ))}
                 <option value="9+">9+ (call us)</option>
               </select>
-              {touched.guests && errors.guests && (
-                <p id="res-guests-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                  <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                  {errors.guests}
-                </p>
-              )}
+              {errorText("guests")}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-x-6 mt-6">
               <div>
-                <label htmlFor="res-name" className="block text-sm font-medium text-foreground mb-2">
-                  <User className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                  Name
-                </label>
+                <label htmlFor="res-name" className="field-label">Name</label>
                 <input
                   id="res-name"
                   type="text"
@@ -290,23 +227,15 @@ export function ReservationForm() {
                   onBlur={() => handleBlur("name")}
                   aria-invalid={touched.name && !!errors.name}
                   aria-describedby={errors.name ? "res-name-error" : undefined}
-                  className={clsx("input", touched.name && errors.name && "border-destructive")}
+                  className={clsx("field-input", touched.name && errors.name && "border-destructive")}
                   placeholder="Your full name"
                   autoComplete="name"
                 />
-                {touched.name && errors.name && (
-                  <p id="res-name-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                    <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                    {errors.name}
-                  </p>
-                )}
+                {errorText("name")}
               </div>
 
               <div>
-                <label htmlFor="res-phone" className="block text-sm font-medium text-foreground mb-2">
-                  <Phone className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                  Phone
-                </label>
+                <label htmlFor="res-phone" className="field-label">Phone</label>
                 <input
                   id="res-phone"
                   type="tel"
@@ -315,24 +244,16 @@ export function ReservationForm() {
                   onBlur={() => handleBlur("phone")}
                   aria-invalid={touched.phone && !!errors.phone}
                   aria-describedby={errors.phone ? "res-phone-error" : undefined}
-                  className={clsx("input", touched.phone && errors.phone && "border-destructive")}
+                  className={clsx("field-input", touched.phone && errors.phone && "border-destructive")}
                   placeholder="(212) 555-0123"
                   autoComplete="tel"
                 />
-                {touched.phone && errors.phone && (
-                  <p id="res-phone-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                    <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                    {errors.phone}
-                  </p>
-                )}
+                {errorText("phone")}
               </div>
             </div>
 
-            <div>
-              <label htmlFor="res-email" className="block text-sm font-medium text-foreground mb-2">
-                <Envelope className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                Email
-              </label>
+            <div className="mt-6">
+              <label htmlFor="res-email" className="field-label">Email</label>
               <input
                 id="res-email"
                 type="email"
@@ -341,48 +262,38 @@ export function ReservationForm() {
                 onBlur={() => handleBlur("email")}
                 aria-invalid={touched.email && !!errors.email}
                 aria-describedby={errors.email ? "res-email-error" : undefined}
-                className={clsx("input", touched.email && errors.email && "border-destructive")}
+                className={clsx("field-input", touched.email && errors.email && "border-destructive")}
                 placeholder="you@example.com"
                 autoComplete="email"
               />
-              {touched.email && errors.email && (
-                <p id="res-email-error" className="text-xs text-destructive mt-1.5 flex items-center gap-1">
-                  <Warning className="h-3.5 w-3.5" aria-hidden="true" />
-                  {errors.email}
-                </p>
-              )}
+              {errorText("email")}
             </div>
 
-            <div>
-              <label htmlFor="res-requests" className="block text-sm font-medium text-foreground mb-2">
-                <NotePencil className="h-4 w-4 inline-block mr-1.5 -mt-0.5 text-accent" aria-hidden="true" />
-                Special Requests <span className="text-muted font-normal">(optional)</span>
+            <div className="mt-6">
+              <label htmlFor="res-requests" className="field-label">
+                Special Requests <span className="normal-case text-muted-2 font-normal">(optional)</span>
               </label>
               <textarea
                 id="res-requests"
                 value={formData.requests}
                 onChange={(e) => updateField("requests", e.target.value)}
-                rows={3}
-                className="input resize-none"
+                rows={2}
+                className="field-input resize-none"
                 placeholder="Allergies, celebrations, seating preferences..."
               />
             </div>
 
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              className="w-full"
-              isLoading={submitting}
-            >
-              {submitting ? "Confirming..." : "Confirm Reservation"}
-            </Button>
+            <Magnetic className="w-full mt-9">
+              <Button type="submit" variant="primary" size="lg" className="w-full" isLoading={submitting}>
+                {submitting ? "Confirming..." : "Confirm Reservation"}
+              </Button>
+            </Magnetic>
 
             <div aria-live="polite" className="sr-only">
               {submitting ? "Submitting your reservation..." : ""}
             </div>
 
-            <p className="text-xs text-bone-muted text-center">
+            <p className="text-xs text-muted-2 text-center mt-4">
               By reserving, you agree to our cancellation policy. Changes within 24 hours may incur a fee.
             </p>
           </form>

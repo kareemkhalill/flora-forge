@@ -2,7 +2,7 @@ export const brand = {
   name: "Flora & Forge",
   tagline: "Straight from the Oven.",
   shortTagline: "Wood-fired pizzeria",
-  description: "48-hour fermented dough, San Marzano tomatoes, 900°F wood-fired oven. Hand-stretched pizza baked to order in Chelsea.",
+  description: "A Neapolitan pizzeria on West 18th Street. We mix the dough two days ahead, keep the topping list short, and fire every pie to order in a wood oven you can see from your table.",
   url: "https://floraforge.com",
   phone: "(212) 555-0147",
   email: "hello@floraandforge.com",

@@ -1,103 +1,106 @@
 "use client";
 
 import { useState } from "react";
-import { clsx } from "clsx";
-import { CaretRight } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
 import { menuCategories } from "@/data/menu";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Reveal, WordReveal } from "@/components/motion/Motion";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function Menu() {
   const [activeCategory, setActiveCategory] = useState("classiche");
-  const [ref, visible] = useIntersectionObserver({
-    threshold: 0.15,
-    rootMargin: "0px 0px -100px 0px",
-  });
+  const reduced = useReducedMotion();
 
   const category = menuCategories.find((c) => c.id === activeCategory)!;
 
   return (
-    <section
-      ref={ref}
-      id="menu"
-      className="section"
-      aria-labelledby="menu-title"
-    >
+    <section id="menu" className="section bg-background-alt" aria-labelledby="menu-title">
       <div className="container">
-        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible && "visible")}>
-          <span className="eyebrow">THE MENU</span>
-          <h2 id="menu-title">Crafted for the oven</h2>
-          <p>
-            Every pie starts with 48-hour dough and ends in a 900°F wood flame. What you see
-            here is what we&apos;re firing today — simple, honest, and hot.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-8">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <span className="eyebrow">The Menu</span>
+            </Reveal>
+            <WordReveal id="menu-title" as="h2" className="display-2 mt-5" text="Nine pies and a few things to share" delay={0.05} />
+            <Reveal delay={0.15}>
+              <p className="mt-6 text-muted text-lg leading-relaxed max-w-sm">
+                The menu stays short so the kitchen can keep up with the oven. This is what
+                we&apos;re firing today.
+              </p>
+            </Reveal>
 
-        <div
-          className={clsx(
-            "flex flex-wrap gap-2 mb-10 lg:mb-14 justify-center lg:justify-start reveal stagger-1",
-            visible && "visible"
-          )}
-          role="tablist"
-          aria-label="Menu categories"
-        >
-          {menuCategories.map((cat) => (
-            <button
-              key={cat.id}
-              role="tab"
-              aria-selected={activeCategory === cat.id}
-              aria-controls={`${cat.id}-panel`}
-              id={`${cat.id}-tab`}
-              onClick={() => setActiveCategory(cat.id)}
-              className={clsx(
-                "px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ease-out",
-                activeCategory === cat.id
-                  ? "bg-accent text-bone shadow-[0_4px_20px_-4px_rgba(184,71,47,0.4)]"
-                  : "bg-surface text-foreground border border-border hover:border-accent hover:text-accent"
-              )}
+            <div
+              className="flex flex-col items-start gap-1 mt-10 border-t border-border pt-2"
+              role="tablist"
+              aria-label="Menu categories"
             >
-              {cat.title}
-            </button>
-          ))}
-        </div>
+              {menuCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  role="tab"
+                  aria-selected={activeCategory === cat.id}
+                  aria-controls={`${cat.id}-panel`}
+                  id={`${cat.id}-tab`}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className="tab-underline"
+                >
+                  {cat.title}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <div
-          key={activeCategory}
-          className={clsx(
-            "reveal stagger-2",
-            visible && "visible"
-          )}
-          role="tabpanel"
-          id={`${activeCategory}-panel`}
-          aria-labelledby={`${activeCategory}-tab`}
-        >
-          <p className="text-muted text-base mb-8 max-w-2xl">{category.description}</p>
-          <dl className="space-y-0 max-w-3xl">
-            {category.items.map((item, index) => (
-              <div
-                key={item.name}
-                className={clsx("menu-item reveal stagger-1", visible && "visible")}
-                style={{ transitionDelay: `${(index + 1) * 50}ms` }}
-              >
-                <div>
-                  <dt className="menu-item-name">{item.name}</dt>
-                  <dd className="menu-item-description">{item.description}</dd>
-                </div>
-                <dd className="menu-item-price flex items-center">{item.price}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+          <div className="lg:col-span-1" />
 
-        <div className={clsx("mt-12 lg:mt-16 text-center reveal stagger-3", visible && "visible")}>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => document.getElementById("reservations")?.scrollIntoView({ behavior: "smooth" })}
+          <div
+            className="lg:col-span-7"
+            role="tabpanel"
+            id={`${activeCategory}-panel`}
+            aria-labelledby={`${activeCategory}-tab`}
           >
-            Book a Table
-            <CaretRight className="h-5 w-5" aria-hidden="true" />
-          </Button>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduced ? 0 : -8 }}
+                transition={{ duration: reduced ? 0.01 : 0.35, ease: EASE }}
+              >
+                <p className="text-muted mb-8">{category.description}</p>
+                <dl>
+                  {category.items.map((item, i) => (
+                    <motion.div
+                      key={item.name}
+                      className="menu-item"
+                      initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: reduced ? 0.01 : 0.5, ease: EASE, delay: reduced ? 0 : i * 0.05 }}
+                    >
+                      <div>
+                        <dt className="menu-item-name">{item.name}</dt>
+                        <dd className="menu-item-description">{item.description}</dd>
+                      </div>
+                      <dd className="menu-item-price flex items-center">{item.price}</dd>
+                    </motion.div>
+                  ))}
+                </dl>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="mt-10">
+              <Button
+                variant="outline"
+                size="lg"
+                className="group"
+                onClick={() => document.getElementById("reservations")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Book a Table
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

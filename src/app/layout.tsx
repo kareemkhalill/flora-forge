@@ -8,15 +8,15 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-// PP Editorial New is loaded via Fontshare in <head>. Satoshi loaded via Fontshare too.
+// Display (Zodiak) and body (General Sans) are loaded from Fontshare in <head>.
 
 export const metadata: Metadata = {
   title: "Flora & Forge | Wood-Fired Pizza in Chelsea",
-  description: "48-hour fermented dough, San Marzano tomatoes, 900°F wood-fired oven. Hand-stretched pizza baked to order in Chelsea. Book a table.",
+  description: "A Neapolitan pizzeria on West 18th Street. Dough mixed two days ahead, a short topping list, and every pie fired to order in a wood oven. Book a table.",
   metadataBase: new URL("https://floraforge.com"),
   openGraph: {
     title: "Flora & Forge | Wood-Fired Pizza in Chelsea",
-    description: "48-hour fermented dough, San Marzano tomatoes, 900°F wood-fired oven. Hand-stretched pizza baked to order in Chelsea.",
+    description: "A Neapolitan pizzeria on West 18th Street. Dough mixed two days ahead, a short topping list, and every pie fired to order in a wood oven.",
     type: "website",
     locale: "en_US",
     siteName: "Flora & Forge",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Flora & Forge | Wood-Fired Pizza in Chelsea",
-    description: "48-hour fermented dough, San Marzano tomatoes, 900°F wood-fired oven. Hand-stretched pizza baked to order in Chelsea.",
+    description: "A Neapolitan pizzeria on West 18th Street. Dough mixed two days ahead, a short topping list, and every pie fired to order in a wood oven.",
   },
   robots: {
     index: true,
@@ -33,10 +33,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f1e7" },
-    { media: "(prefers-color-scheme: dark)", color: "#2c211b" },
-  ],
+  themeColor: "#f8f6f1",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -46,7 +43,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: "Flora & Forge",
-  description: "48-hour fermented dough, San Marzano tomatoes, 900°F wood-fired oven. Hand-stretched pizza baked to order in Chelsea.",
+  description: "A Neapolitan pizzeria on West 18th Street. Dough mixed two days ahead, a short topping list, and every pie fired to order in a wood oven.",
   url: "https://floraforge.com",
   telephone: "+1-212-555-0147",
   address: {
@@ -105,7 +102,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=pp-editorial-new@400,500,600&f[]=satoshi@400,500,700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500&f[]=satoshi@400,500,700&display=swap"
         />
         <script
           type="application/ld+json"

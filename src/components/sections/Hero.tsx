@@ -1,132 +1,118 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { clsx } from "clsx";
-import { ArrowRight, MapPin, Clock } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/Button";
+import { motion, useReducedMotion } from "motion/react";
+import { ArrowRight, ArrowDown } from "@phosphor-icons/react";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Parallax, Magnetic } from "@/components/motion/Motion";
 import { brand } from "@/lib/brand";
+import { heroImage } from "@/data/images";
 
 interface HeroProps {
   className?: string;
 }
 
-export function Hero({ className }: HeroProps) {
-  const [visible, setVisible] = useState(false);
+const EASE = [0.16, 1, 0.3, 1] as const;
+const headline = [
+  { text: "Straight", accent: false },
+  { text: "from the", accent: false },
+  { text: "oven.", accent: true },
+];
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      setVisible(true);
-    });
-  }, []);
+export function Hero({ className }: HeroProps) {
+  const reduced = useReducedMotion();
 
   return (
     <section
-      className={clsx("hero-section", className)}
+      className={clsx("relative min-h-[100dvh] pt-24 lg:pt-28 flex flex-col overflow-hidden", className)}
       aria-labelledby="hero-title"
     >
-      <div className="hero-bg">
-        <Image
-          src="/images/hero-pizza.jpg"
-          alt="Fresh artisan Margherita pizza with blistered crust, San Marzano tomatoes, fior di latte, and fresh basil straight from wood-fired oven"
-          fill
-          priority
-          sizes="100vw"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="hero-overlay" />
-      <div className="hero-vignette" />
-      <div className="container relative z-10 flex flex-col min-h-[100dvh] px-4 py-16 lg:py-24">
-        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-5xl mx-auto">
-          <div
-            className={clsx(
-              "w-full text-center lg:text-left",
-              visible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
-            )}
-            style={{ transitionDelay: "0ms" }}
+      <div className="ember-ambient" aria-hidden="true" />
+
+      <div className="container flex-1 grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-center relative">
+        <div className="lg:order-1">
+          <motion.span
+            className="eyebrow"
+            initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0.01 : 0.7, ease: EASE }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/10 mb-6 animate-fade-in-up delay-1">
-              <span className="text-[10px] uppercase tracking-widest font-medium text-foreground">Wood-fired</span>
-              <span className="w-1 h-1 rounded-full bg-accent" aria-hidden="true" />
-              <span className="text-[10px] uppercase tracking-widest font-medium text-foreground">Pizzeria</span>
-            </div>
-            <h1
-              id="hero-title"
-              className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-medium tracking-tighter leading-[1.02] text-foreground animate-fade-in-up delay-2 text-shadow"
-            >
-              Straight from
-              <br />
-              <span className="text-accent">the Oven.</span>
-            </h1>
-            <p className="mt-6 text-lg sm:text-xl lg:text-2xl text-foreground/85 max-w-2xl mx-auto lg:mx-0 animate-fade-in-up delay-3 leading-relaxed">
-              Hand-stretched dough, carefully chosen ingredients, and pizza baked to order.
-            </p>
-            <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 lg:justify-start animate-fade-in-up delay-4">
+            Wood-Fired Pizzeria — Chelsea
+          </motion.span>
+
+          <h1 id="hero-title" className="display-1 mt-6 text-foreground">
+            {headline.map((line, i) => (
+              <span key={line.text} className="block overflow-hidden pb-[0.06em]">
+                <motion.span
+                  className={clsx("block", line.accent && "text-accent")}
+                  initial={{ y: reduced ? 0 : "108%", opacity: reduced ? 0 : 1 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{ duration: reduced ? 0.01 : 0.95, ease: EASE, delay: 0.1 + i * 0.09 }}
+                >
+                  {line.text}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
+
+          <motion.p
+            className="mt-8 text-lg text-bone-muted max-w-md leading-relaxed"
+            initial={{ opacity: 0, y: reduced ? 0 : 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0.01 : 0.7, ease: EASE, delay: 0.42 }}
+          >
+            {brand.description}
+          </motion.p>
+
+          <motion.div
+            className="mt-10 flex flex-wrap items-center gap-5"
+            initial={{ opacity: 0, y: reduced ? 0 : 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0.01 : 0.7, ease: EASE, delay: 0.52 }}
+          >
+            <Magnetic>
               <Button
                 variant="primary"
                 size="xl"
-                className="group min-w-[200px] px-8 py-4"
+                className="group"
                 onClick={() => document.getElementById("reservations")?.scrollIntoView({ behavior: "smooth" })}
               >
                 Book a Table
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Button>
-              <Button
-                variant="outline"
-                size="xl"
-                className="min-w-[200px] px-8 py-4 border-foreground/30 text-foreground hover:bg-foreground/5"
-                onClick={() => document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                View the Menu
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-16 lg:mt-20 w-full animate-fade-in-up delay-5">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 w-full max-w-4xl mx-auto">
-              <InfoCard icon={<MapPin className="h-5 w-5" aria-hidden="true" />}>
-                <span className="text-xs uppercase tracking-wider text-foreground/50">Address</span>
-                <p className="text-sm font-medium text-foreground mt-0.5">{brand.address.street}</p>
-                <p className="text-xs text-foreground/60">New York, NY 10011</p>
-              </InfoCard>
-              <InfoCard icon={<Clock className="h-5 w-5" aria-hidden="true" />}>
-                <span className="text-xs uppercase tracking-wider text-foreground/50">Tue – Thu</span>
-                <p className="text-sm font-medium text-foreground mt-0.5">5:00 PM – 10:00 PM</p>
-                <p className="text-xs text-foreground/60">Fri 5:00 PM – 11:00 PM</p>
-              </InfoCard>
-              <InfoCard icon={<Clock className="h-5 w-5" aria-hidden="true" />}>
-                <span className="text-xs uppercase tracking-wider text-foreground/50">Weekend</span>
-                <p className="text-sm font-medium text-foreground mt-0.5">Sat 12:00 PM – 11:00 PM</p>
-                <p className="text-xs text-foreground/60">Sun 12:00 PM – 9:00 PM</p>
-              </InfoCard>
-              <InfoCard icon={<MapPin className="h-5 w-5" aria-hidden="true" />}>
-                <span className="text-xs uppercase tracking-wider text-foreground/50">Monday</span>
-                <p className="text-sm font-medium text-foreground mt-0.5">Closed</p>
-                <p className="text-xs text-foreground/60">Private events by request</p>
-              </InfoCard>
-            </div>
-          </div>
+            </Magnetic>
+            <Button
+              variant="ghost"
+              size="xl"
+              className="group"
+              onClick={() => document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              View the Menu
+              <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" aria-hidden="true" />
+            </Button>
+          </motion.div>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float animate-fade-in delay-6" aria-hidden="true">
-          <div className="flex flex-col items-center gap-2">
-            <ArrowRight className="h-7 w-7 text-foreground/40 rotate-90" />
-            <span className="text-[10px] uppercase tracking-widest text-foreground/30">Scroll</span>
-          </div>
-        </div>
+        <motion.div
+          className="lg:order-2 relative lg:translate-y-4"
+          initial={{ opacity: 0, clipPath: reduced ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" }}
+          animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
+          transition={{ duration: reduced ? 0.01 : 1.1, ease: EASE, delay: 0.15 }}
+        >
+          <Parallax className="frame frame-grain relative aspect-[4/5] lg:aspect-[3/4]" strength={28}>
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 45vw"
+            />
+          </Parallax>
+        </motion.div>
       </div>
+
+      <div className="pb-16 lg:pb-24" />
     </section>
-  );
-}
-
-function InfoCard({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
-  return (
-    <div className="relative p-4 lg:p-5 bg-foreground/5 backdrop-blur-sm border border-foreground/10 rounded-xl flex items-start gap-3 group hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300">
-      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent group-hover:bg-accent/20 group-hover:border-accent/30 transition-all duration-300">
-        {icon}
-      </div>
-      <div>{children}</div>
-    </div>
   );
 }

@@ -1,137 +1,86 @@
-"use client";
-
-import { clsx } from "clsx";
 import Image from "next/image";
-import { brand } from "@/lib/brand";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Reveal, RevealItem, WordReveal, Parallax } from "@/components/motion/Motion";
+import { signatureImage, menuThumbs } from "@/data/images";
 
 const signaturePizza = {
   name: "Burrata Piccante",
-  category: "SIGNATURE PIZZA",
-  description:
-    "Tomato, fior di latte, spicy salami, burrata, basil and chili oil.",
+  category: "Signature Pizza",
+  description: "Tomato, fior di latte, spicy salami, burrata, basil and chili oil.",
   price: "$26",
-  image: "/images/burrata-piccante.jpg",
 };
 
 const supporting = [
-  {
-    name: "Mortadella & Pistachio",
-    description: "Fior di latte, mortadella, crushed pistachio, lemon, basil.",
-    price: "$25",
-    image: "/images/mortadella-pistachio.jpg",
-  },
-  {
-    name: "Truffle Mushroom",
-    description: "Wild mushroom, truffle cream, fontina, thyme, truffle oil.",
-    price: "$24",
-    image: "/images/truffle-mushroom.jpg",
-  },
-  {
-    name: "Spicy Honey",
-    description: "Fior di latte, 'nduja, red onion, hot honey, chili flake.",
-    price: "$23",
-    image: "/images/spicy-honey.jpg",
-  },
-  {
-    name: "Prosciutto & Stracciatella",
-    description: "Stracciatella, prosciutto di Parma, arugula, shaved parmesan.",
-    price: "$25",
-    image: "/images/prosciutto-stracciatella.jpg",
-  },
+  { name: "Mortadella & Pistachio", description: "Fior di latte, mortadella, crushed pistachio, lemon, basil.", price: "$25" },
+  { name: "Truffle Mushroom", description: "Wild mushroom, truffle cream, fontina, thyme, truffle oil.", price: "$24" },
+  { name: "Spicy Honey", description: "Fior di latte, 'nduja, red onion, hot honey, chili flake.", price: "$23" },
+  { name: "Prosciutto & Stracciatella", description: "Stracciatella, prosciutto di Parma, arugula, shaved parmesan.", price: "$25" },
 ];
 
 export function SignatureDishes() {
-  const [ref, visible] = useIntersectionObserver({
-    threshold: 0.15,
-    rootMargin: "0px 0px -100px 0px",
-  });
-
   return (
-    <section
-      ref={ref}
-      className="section relative"
-      aria-labelledby="dishes-title"
-    >
+    <section className="section" aria-labelledby="dishes-title">
       <div className="container">
-        <div className={clsx("section-header max-w-2xl mb-12 lg:mb-16 reveal", visible ? "visible" : "")}>
-          <span className="eyebrow">SIGNATURE PIZZA</span>
-          <h2 id="dishes-title">The one we&apos;re known for</h2>
-          <p>
-            We built the menu around the dishes we actually crave. This is the pie that
-            regulars order before they&apos;ve sat down.
-          </p>
+        <div className="max-w-xl mb-12 lg:mb-16">
+          <Reveal>
+            <span className="eyebrow">Signature Pizza</span>
+          </Reveal>
+          <WordReveal id="dishes-title" as="h2" className="display-2 mt-5" text="The one people order before they sit down" delay={0.05} />
+          <Reveal delay={0.15}>
+            <p className="mt-6 text-muted text-lg leading-relaxed">
+              If you are here for the first time, start with the Burrata Piccante. The burrata goes
+              on after the pie leaves the oven, so it stays cold against the hot crust.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-          <article
-            className={clsx(
-              "relative aspect-[4/5] rounded-xl overflow-hidden group",
-              "reveal stagger-1",
-              visible ? "visible" : ""
-            )}
-          >
-            <Image
-              src={signaturePizza.image}
-              alt={`${signaturePizza.name} at ${brand.name}`}
-              width="1200"
-              height="1500"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-102"
-              loading="eager"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-transparent to-transparent z-10" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 z-20">
-              <span className="text-xs uppercase tracking-widest text-accent font-medium">
-                {signaturePizza.category}
-              </span>
-              <h3 className="font-display text-3xl lg:text-4xl font-medium mt-2 mb-3 text-foreground">
-                {signaturePizza.name}
-              </h3>
-              <p className="text-muted text-base lg:text-lg leading-relaxed mb-6 max-w-md">
-                {signaturePizza.description}
-              </p>
-              <span className="font-display text-2xl text-accent font-medium">
-                {signaturePizza.price}
-              </span>
-            </div>
-          </article>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-            {supporting.map((dish, index) => (
-              <article
-                key={dish.name}
-                className={clsx(
-                  "card relative overflow-hidden aspect-[3/4] group",
-                  `reveal stagger-${index + 2}`,
-                  visible ? "visible" : ""
-                )}
-              >
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
+          <Reveal delay={0.05}>
+            <article>
+              <Parallax className="frame aspect-[4/5]" strength={26}>
                 <Image
-                  src={dish.image}
-                  alt={`${dish.name} at ${brand.name}`}
-                  width="600"
-                  height="800"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  loading="lazy"
+                  src={signatureImage.src}
+                  alt={signatureImage.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-transparent to-transparent z-10" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5 z-20">
-                  <h4 className="font-display text-lg font-medium mb-2 text-foreground">
-                    {dish.name}
-                  </h4>
-                  <p className="text-muted text-sm leading-relaxed mb-3 line-clamp-3">
-                    {dish.description}
-                  </p>
-                  <span className="font-display text-lg text-accent font-medium">
-                    {dish.price}
-                  </span>
+              </Parallax>
+              <div className="pt-6 border-t border-border mt-6 flex items-start justify-between gap-6">
+                <div>
+                  <span className="eyebrow text-[10px]">{signaturePizza.category}</span>
+                  <h3 className="display-3 mt-3 mb-2">{signaturePizza.name}</h3>
+                  <p className="text-muted leading-relaxed max-w-sm">{signaturePizza.description}</p>
                 </div>
-              </article>
+                <span className="font-mono text-lg text-amber flex-shrink-0">{signaturePizza.price}</span>
+              </div>
+            </article>
+          </Reveal>
+
+          <Reveal className="flex flex-col" stagger={0.08} delay={0.12}>
+            {supporting.map((dish, i) => (
+              <RevealItem key={dish.name}>
+                <article className="flex gap-5 py-5 border-b border-border last:border-b-0 group">
+                  <div className="frame aspect-square w-24 h-24 lg:w-28 lg:h-28 flex-shrink-0">
+                    <Image
+                      src={menuThumbs[i].src}
+                      alt={menuThumbs[i].alt}
+                      width={224}
+                      height={224}
+                      sizes="112px"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <h4 className="font-display text-lg leading-tight">{dish.name}</h4>
+                      <span className="font-mono text-sm text-amber flex-shrink-0">{dish.price}</span>
+                    </div>
+                    <p className="text-muted text-sm mt-1.5 leading-relaxed">{dish.description}</p>
+                  </div>
+                </article>
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
